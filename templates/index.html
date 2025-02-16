@@ -1,0 +1,74 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block main %}
+
+    <section class="text-center container">
+        <div class="row py-3">
+            <div class="col-lg-6 col-md-8 mx-auto">
+                <h1 class="fw-light">Find Your Perfect Jam Session</h1>
+                <p class="lead text-body-secondary">Connect with local musicians, book jam sessions, and make music together. Your next collaboration is just a click away.</p>
+                <div class="text-center">
+                    <a href="/spaces" class="btn btn-danger mt-auto">Book Now</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <section class="py-2">
+        <div class="container">
+            <h2 class="text-center mb-3">Featured Jam Spaces</h2>
+            <div class="row row-cols-1 row-cols-md-3 g-4">
+                {% for featured_space in featured_spaces %}
+                <div class="col">
+                    <div class="card h-100 shadow-sm">
+                        <img src="{{ featured_space.image }}" class="card-img-top" alt="{{ featured_space.name }}">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ featured_space.name }}</h5>
+                            <p class="card-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-calendar-event me-2" viewBox="0 0 16 16">
+                                    <path d="M11 6.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5v1a.5.5 0 0 1-.5.5h-1a.5.5 0 0 1-.5-.5v-1z"/>
+                                    <path d="M3.5 0a.5.5 0 0 1 .5.5V1h8V.5a.5.5 0 0 1 1 0V1h1a2 2 0 0 1 2 2v11a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2h1V.5a.5.5 0 0 1 .5-.5zM1 4v10a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V4H1z"/>
+                                </svg>
+                                Date: 2025-03-01
+                            </p>
+                            <p class="card-text">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-geo-alt me-2" viewBox="0 0 16 16">
+                                    <path d="M12.166 8.94c-.524 1.062-1.234 2.12-1.96 3.07A31.493 31.493 0 0 1 8 14.58a31.481 31.481 0 0 1-2.206-2.57c-.726-.95-1.436-2.008-1.96-3.07C3.304 7.867 3 6.862 3 6a5 5 0 0 1 10 0c0 .862-.305 1.867-.834 2.94zM8 16s6-5.686 6-10A6 6 0 0 0 2 6c0 4.314 6 10 6 10z"/>
+                                    <path d="M8 8a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm0 1a3 3 0 1 0 0-6 3 3 0 0 0 0 6z"/>
+                                </svg>
+                                {{ featured_space.address }}
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </div>
+    </section>
+
+    {% if not session.get("username") %}
+    <section class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-6">
+                    <h2 class="text-center mb-3">Start Jamming Today</h2>
+                    <p class="text-center mb-3">Whether you're a beginner or a pro, there's always room for more music. Join Jam 50 and start your musical journey.</p>
+                    <div class="text-center">
+                        <a href="/register" class="btn btn-danger mt-auto">Sign Up for Free</a>
+                    </div>
+                    <!-- <p class="text-center text-muted small mt-2">By signing up, you agree to our Terms of Service and Privacy Policy.</p> -->
+                </div>
+            </div>
+        </div>
+    </section>
+    {% else %}
+    <p></p>
+    {% endif %}
+
+{% endblock %}
+
