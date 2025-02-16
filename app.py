@@ -10,7 +10,7 @@ from datetime import datetime, timedelta
 
 app = Flask(__name__)
 
-app.secret_key = 'jam-50'
+app.secret_key = os.getenv('SECRET_KEY')
 
 # Configure session to use filesystem (instead of signed cookies)
 app.config["SESSION_PERMANENT"] = False
