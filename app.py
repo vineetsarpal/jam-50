@@ -1,10 +1,9 @@
 import os
 from flask import Flask, flash, redirect, render_template, request, session
 from flask_session import Session
-from werkzeug.security import check_password_hash, generate_password_hash
+from werkzeug.security import check_password_hash
 from helpers import error
-from flask_sqlalchemy import SQLAlchemy
-from models import db, User, Space, Booking
+from models import db, User, Space, Booking 
 from helpers import login_required
 from datetime import datetime, timedelta
 
@@ -28,7 +27,6 @@ with app.app_context():
 def index():
     featured_spaces = db.session.query(Space).limit(3).all()
     return render_template('index.html', featured_spaces=featured_spaces)
-
 
 @app.route("/register", methods=["GET", "POST"])
 def register():
@@ -127,6 +125,7 @@ def logout():
         user_id = session.get("user_id")
         db.session.query(Booking).filter_by(user_id=user_id).delete()
         db.session.commit()
+
     session.clear()
     flash("Logged out successfully!")
     return redirect("/")    
@@ -134,24 +133,7 @@ def logout():
 @app.route("/spaces")
 @login_required
 def spaces():
-
-    # Add a new space
-
-    # new_space = Space(
-    #     name="Garage Pad",
-    #     description="A rehearasl space to practice for hours on end",
-    #     capacity=6,
-    #     hourly_rate=40.00,
-    #     address="51 Grunge Avenue, Paddington, NY 65870",
-    #     amenities="Drum kit, cymbals, guitar amps, synth, mic, soundproofing",
-    #     image="/static/images/jam1.jpg"
-    # )
-
-    # db.session.add(new_space)
-    # db.session.commit()
-
     spaces = db.session.query(Space).all()
-
     return render_template("spaces.html", spaces=spaces)
 
 @app.route("/spaces/<int:space_id>")
@@ -164,7 +146,16 @@ def space(space_id):
 @login_required
 def book():
     user_id = session.get("user_id")
+    username = session.get("username")
     space_id = request.form.get("space_id")
+
+    if username == "admin":
+        db.session.query(Space).filter_by(id=space_id).delete()
+        db.session.commit()
+        flash("Deleted successfully!")
+        return redirect("/")    
+
+    
     hourly_rate = request.form.get("rate")
     start_time_str = request.form.get("bookDateTime")
     start_time = datetime.strptime(start_time_str, "%Y-%m-%dT%H:%M")
@@ -199,6 +190,33 @@ def bookings():
         space = db.session.query(Space).get(booking.space_id)
         booking.space_name = space.name
     return render_template("bookings.html", bookings=bookings)
+
+@app.route("/add_space", methods=["GET", "POST"])
+@login_required
+def add_space():
+    if request.method == "POST":
+        space_name = request.form.get("name")
+        new_space = Space(
+            name=space_name,
+            description=request.form.get("description"),
+            capacity=request.form.get("capacity"),
+            hourly_rate=request.form.get("hourly_rate"),
+            address=request.form.get("address"),
+            amenities=request.form.get("amenities"),
+            image=request.form.get("image")
+        )
+
+        db.session.add(new_space)
+        db.session.commit()
+
+        flash(f"Jam Space: '{space_name}' added successfully!")
+        return redirect('/')
+    else:
+        return render_template("add_space.html")
+
+@app.route('/credits')
+def credits():
+    return render_template("credits.html")
 
 if __name__ == '__main__':
     app.run(debug=True)
