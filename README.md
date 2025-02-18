@@ -49,7 +49,7 @@ This is my Final Project for Harvard's CS50x Introduction to Computer Science co
 * models.py - conatins the 
 * requirements.txt - text file containing the list of all Python libraries and modules imported
 
-## Design Decision
+## Design Decisions
 * Database choice
     * This project utilizes SQLite as its database engine. SQLite is lightweight and portable, making it a suitable choice for the purposes of this Project. The database file is committed to the repo to provide for a simplified intitial setup with the essential admin and guest user accounts being preloaded. This ensures the Core application features work out-of-the-box.
 
