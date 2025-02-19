@@ -1,6 +1,7 @@
 # Jam 50
 #### A Flask based web application for booking jam sessions.
 #### Video Demo: https://www.youtube.com/watch?v=4hFGfp9JckM
+#### Live Preview: https://jam-50.onrender.com/
 
 ## About
 This is my Final Project for Harvard's CS50x Introduction to Computer Science course. It's a web application designed to connect musicians with the listed jam spaces, allowing them to easily explore, and book jam spaces plus view their booking history.
