@@ -131,7 +131,6 @@ def logout():
     return redirect("/")    
 
 @app.route("/spaces")
-@login_required
 def spaces():
     spaces = db.session.query(Space).all()
     return render_template("spaces.html", spaces=spaces)
